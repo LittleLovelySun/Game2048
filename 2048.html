@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		#canvas { display: block; border: 1px solid #000; margin: 10px auto; width: 612px; height: 612px }
+	</style>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<script type="text/javascript" src="field.js"></script>
+	<script>
+		const padding = 50
+		const fieldSize = 612 
+		const cellSize = (fieldSize - padding * 2) / 4
+
+		const canvas = document.getElementById("canvas")
+		var ctx = canvas.getContext("2d")
+
+		const left = "left"
+		const right = "right"
+		const down = "down"
+		const up = "up"
+
+		canvas.width = fieldSize
+		canvas.height = fieldSize
+
+		var field = new Field(4)
+		field.Draw(ctx)
+	</script>
+	<script>
+		function clear() {
+			ctx.fillStyle = "#fff"
+			ctx.fillRect(0, 0, fieldSize, fieldSize)
+		}
+
+		document.addEventListener("keydown", (event) => {
+			let wasSlide = false
+
+			if (event.key == "ArrowLeft") 
+				wasSlide = field.Slide(left)
+			else if (event.key == "ArrowRight")
+				wasSlide = field.Slide(right)
+			else if (event.key == "ArrowUp")
+				wasSlide = field.Slide(up)
+			else if (event.key == "ArrowDown")
+				wasSlide = field.Slide(down)
+
+			if (wasSlide)
+				field.AddTile()
+			
+			clear()
+			field.Draw(ctx)
+
+		}, false)
+		
+	</script>
+</body>
+</html>
